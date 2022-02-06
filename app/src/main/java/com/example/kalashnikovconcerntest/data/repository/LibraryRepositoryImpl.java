@@ -13,12 +13,10 @@ import io.reactivex.Flowable;
 
 public class LibraryRepositoryImpl implements LibraryRepository {
 
-    private final LibraryDatabase database;
     private final LibraryDao libraryDao;
 
-    public LibraryRepositoryImpl(LibraryDatabase database) {
-        this.database = database;
-        this.libraryDao = this.database.libraryDao();
+    public LibraryRepositoryImpl(LibraryDao libraryDao) {
+        this.libraryDao = libraryDao;
     }
 
     @Override

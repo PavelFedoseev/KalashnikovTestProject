@@ -17,7 +17,6 @@ import com.example.kalashnikovconcerntest.util.Config;
 import java.util.concurrent.Executors;
 
 @Database(entities = {Author.class, Book.class}, version = 1, exportSchema = false)
-//@TypeConverters(CalendarTypeConverter.class)
 public abstract class LibraryDatabase extends RoomDatabase {
     public abstract LibraryDao libraryDao();
 

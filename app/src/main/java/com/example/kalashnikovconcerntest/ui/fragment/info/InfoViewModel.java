@@ -71,22 +71,21 @@ public class InfoViewModel extends ViewModel {
         if (currentAuthor != null) {
             currentAuthor.setName(authorName);
             String[] date = birthday.split("-");
-            if(date.length == 3){
+            if (date.length == 3) {
                 Calendar calendar = Calendar.getInstance();
                 try {
                     calendar.set(Integer.parseInt(date[0]), Integer.parseInt(date[1]) - 1, Integer.parseInt(date[2]));
                     currentAuthor.setBirthDate(calendar.getTimeInMillis());
-                }
-                catch (NumberFormatException e){
+                } catch (NumberFormatException e) {
                     Timber.d("NumberFormatException in birthday string: %s", birthday);
                     _toastMessage.postValue("Неправильный формат даты: yyyy-MM-dd");
                 }
-            }
-            else{
+            } else {
                 _toastMessage.postValue("Неправильный формат даты: yyyy-MM-dd");
             }
             changeAuthorInfo(currentAuthor);
         }
+        _toastMessage.postValue("Изменения сохранены :)");
     }
 
     private void changeBookInfo(Book book) {

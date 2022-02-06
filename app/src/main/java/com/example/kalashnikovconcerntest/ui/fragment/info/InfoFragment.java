@@ -14,11 +14,15 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.kalashnikovconcerntest.R;
+import com.example.kalashnikovconcerntest.data.dto.Book;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import dagger.hilt.android.AndroidEntryPoint;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
+import timber.log.Timber;
 
 @AndroidEntryPoint
 public class InfoFragment extends Fragment {

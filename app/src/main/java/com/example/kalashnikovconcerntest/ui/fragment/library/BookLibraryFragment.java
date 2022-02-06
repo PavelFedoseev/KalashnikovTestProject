@@ -25,7 +25,7 @@ import dagger.hilt.android.AndroidEntryPoint;
 @AndroidEntryPoint
 public class BookLibraryFragment extends Fragment {
 
-    public  final static String TAG = "BookLibraryFragment";
+    public final static String TAG = "BookLibraryFragment";
     private BookLibraryViewModel mViewModel;
 
     private RecyclerView mainRecyclerView;
@@ -68,12 +68,12 @@ public class BookLibraryFragment extends Fragment {
         });
     }
 
-    private void initViews(View view){
+    private void initViews(View view) {
         mainRecyclerView = view.findViewById(R.id.recycler_main);
         adapter = new RecyclerViewAdapter(listOfBooks, new RecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Book book) {
-                if(requireActivity() instanceof BookLibraryFragmentAdapter) {
+                if (requireActivity() instanceof BookLibraryFragmentAdapter) {
                     ((BookLibraryFragmentAdapter) requireActivity()).onItemBookSelected(book.getId());
                 }
             }
@@ -82,7 +82,7 @@ public class BookLibraryFragment extends Fragment {
         mainRecyclerView.setAdapter(adapter);
     }
 
-    public interface BookLibraryFragmentAdapter{
+    public interface BookLibraryFragmentAdapter {
         void onItemBookSelected(int bookId);
     }
 }

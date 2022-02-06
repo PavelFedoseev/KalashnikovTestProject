@@ -1,7 +1,6 @@
 package com.example.kalashnikovconcerntest.ui;
 
 import android.os.Bundle;
-import android.view.Window;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,7 +27,7 @@ public class MainActivity extends AppCompatActivity implements BookLibraryFragme
         navController = Navigation.findNavController(this, R.id.fragment_container);
     }
 
-    private void openInfoFragment(int bookId){
+    private void openInfoFragment(int bookId) {
         Bundle bundle = new Bundle();
         bundle.putInt(InfoFragment.ARGUMENT_BOOK_ID_KEY, bookId);
         navController.navigate(R.id.infoFragment, bundle);

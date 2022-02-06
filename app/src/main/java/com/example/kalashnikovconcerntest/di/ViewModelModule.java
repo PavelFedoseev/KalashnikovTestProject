@@ -2,6 +2,7 @@ package com.example.kalashnikovconcerntest.di;
 
 import androidx.room.Insert;
 
+import com.example.kalashnikovconcerntest.data.db.LibraryDao;
 import com.example.kalashnikovconcerntest.data.db.LibraryDatabase;
 import com.example.kalashnikovconcerntest.data.repository.LibraryRepositoryImpl;
 import com.example.kalashnikovconcerntest.domain.repo.LibraryRepository;
@@ -15,7 +16,7 @@ import dagger.hilt.android.components.ViewModelComponent;
 @InstallIn(ViewModelComponent.class)
 public class ViewModelModule {
     @Provides
-    public LibraryRepository provideLibraryRepo(LibraryDatabase database){
-        return new LibraryRepositoryImpl(database);
+    public LibraryRepository provideLibraryRepo(LibraryDao libraryDao){
+        return new LibraryRepositoryImpl(libraryDao);
     }
 }

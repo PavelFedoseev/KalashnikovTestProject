@@ -5,6 +5,7 @@ import android.content.Context;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
+import com.example.kalashnikovconcerntest.data.db.LibraryDao;
 import com.example.kalashnikovconcerntest.data.db.LibraryDatabase;
 import com.example.kalashnikovconcerntest.data.repository.LibraryRepositoryImpl;
 import com.example.kalashnikovconcerntest.domain.repo.LibraryRepository;
@@ -22,5 +23,9 @@ public class AppModule {
     @Provides
     public LibraryDatabase provideLibraryDatabase(@ApplicationContext Context context){
         return LibraryDatabase.getInstance(context);
+    }
+    @Provides
+    public LibraryDao provideLibraryDao(LibraryDatabase database){
+        return database.libraryDao();
     }
 }

@@ -4,12 +4,10 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.kalashnikovconcerntest.data.dto.Author;
 import com.example.kalashnikovconcerntest.data.dto.Book;
 import com.example.kalashnikovconcerntest.domain.repo.LibraryRepository;
 import com.example.kalashnikovconcerntest.domain.usecase.get_book.GetAllBooksUseCase;
 
-import java.util.Calendar;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -32,11 +30,6 @@ public class BookLibraryViewModel extends ViewModel {
     @Inject
     public BookLibraryViewModel(LibraryRepository libraryRepository) {
         this.libraryRepository = libraryRepository;
-
-//        disposables.add(libraryRepository.insertAuthor(new Author(1,"Грибоедов", Calendar.getInstance())).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(()->{
-//            libraryRepository.insertBook(new Book(1, "Книга", "Очень большое описание", 1)).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe();
-//        }));
-
     }
 
     public void onFragmentViewCreated() {
@@ -44,9 +37,7 @@ public class BookLibraryViewModel extends ViewModel {
                 .getBooks()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(list -> {
-                    _listOfBooks.postValue(list);
-                }, throwable -> {
+                .subscribe(_listOfBooks::postValue, throwable -> {
                     Timber.d("Error with getting books");
                 }));
     }

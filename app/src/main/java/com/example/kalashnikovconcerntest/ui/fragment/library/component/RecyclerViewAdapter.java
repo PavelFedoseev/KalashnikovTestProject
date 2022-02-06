@@ -13,7 +13,7 @@ import com.example.kalashnikovconcerntest.data.dto.Book;
 
 import java.util.List;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter {
+public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<Book> bookList;
     private final OnItemClickListener listener;
@@ -57,9 +57,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter {
         void bindView(int position) {
             Book bookItem = bookList.get(position);
             name.setText(bookItem.getName());
-            itemView.setOnClickListener(view -> {
-                listener.onItemClick(bookItem);
-            });
+            itemView.setOnClickListener(view -> listener.onItemClick(bookItem));
         }
     }
 
