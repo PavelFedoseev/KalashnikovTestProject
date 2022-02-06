@@ -9,7 +9,15 @@
         android:id="@+id/bookLibraryFragment"
         android:name="com.example.kalashnikovconcerntest.ui.fragment.library.BookLibraryFragment"
         android:label="book_library_fragment"
-        tools:layout="@layout/book_library_fragment" />
+        tools:layout="@layout/book_library_fragment" >
+        <action
+            android:id="@+id/action_bookLibraryFragment_to_infoFragment"
+            app:destination="@id/infoFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+    </fragment>
     <fragment
         android:id="@+id/infoFragment"
         android:name="com.example.kalashnikovconcerntest.ui.fragment.info.InfoFragment"

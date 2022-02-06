@@ -1,6 +1,7 @@
 package com.example.kalashnikovconcerntest.ui.fragment.library;
 
 import android.os.Bundle;
+import android.transition.TransitionInflater;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,7 +9,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -59,23 +59,17 @@ public class BookLibraryFragment extends Fragment {
     }
 
     private void initObservers() {
-        mViewModel.listOfBooks.observe(this.getViewLifecycleOwner(), new Observer<List<Book>>() {
-            @Override
-            public void onChanged(List<Book> books) {
-                listOfBooks = books;
-                adapter.setList(listOfBooks);
-            }
+        mViewModel.listOfBooks.observe(this.getViewLifecycleOwner(), books -> {
+            listOfBooks = books;
+            adapter.setList(listOfBooks);
         });
     }
 
     private void initViews(View view) {
         mainRecyclerView = view.findViewById(R.id.recycler_main);
-        adapter = new RecyclerViewAdapter(listOfBooks, new RecyclerViewAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(Book book) {
-                if (requireActivity() instanceof BookLibraryFragmentAdapter) {
-                    ((BookLibraryFragmentAdapter) requireActivity()).onItemBookSelected(book.getId());
-                }
+        adapter = new RecyclerViewAdapter(listOfBooks, book -> {
+            if (requireActivity() instanceof BookLibraryFragmentAdapter) {
+                ((BookLibraryFragmentAdapter) requireActivity()).onItemBookSelected(book.getId());
             }
         });
         mainRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));

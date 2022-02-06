@@ -1,6 +1,7 @@
 package com.example.kalashnikovconcerntest.ui.fragment.info;
 
 import android.os.Bundle;
+import android.transition.TransitionInflater;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,6 +58,9 @@ public class InfoFragment extends Fragment {
         mViewModel = new ViewModelProvider(this).get(InfoViewModel.class);
         if (getArguments() != null)
             argumentBookId = getArguments().getInt(ARGUMENT_BOOK_ID_KEY, -1);
+        TransitionInflater transitionInflater = TransitionInflater.from(requireContext());
+        setEnterTransition(transitionInflater.inflateTransition(R.transition.slide_right));
+        setExitTransition(transitionInflater.inflateTransition(R.transition.slide_left));
     }
 
     @Override
