@@ -1,14 +1,12 @@
 package com.example.kalashnikovconcerntest.ui.fragment.info;
 
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -36,6 +34,8 @@ public class InfoFragment extends Fragment {
     private InfoViewModel mViewModel;
 
     private int argumentBookId;
+
+    private boolean isEditMode;
 
     public final static String ARGUMENT_BOOK_ID_KEY = "BookIdKey";
 
@@ -77,71 +77,18 @@ public class InfoFragment extends Fragment {
     }
 
     private void initListeners() {
-        btnEdit.setOnClickListener(view -> mViewModel.onButtonChangeClick());
-        tvBookName.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
-        tvDescription.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
-        tvNameOfAuthor.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
-        tvBirthDate.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
+        btnEdit.setOnClickListener(view -> {
+                    if (isEditMode) {
+                        mViewModel.onEditComplete(
+                                tvBookName.getText().toString(),
+                                tvDescription.getText().toString(),
+                                tvNameOfAuthor.getText().toString(),
+                                tvBirthDate.getText().toString()
+                        );
+                    }
+                    mViewModel.onButtonChangeClick();
+                }
+        );
     }
 
     @Override
@@ -158,30 +105,44 @@ public class InfoFragment extends Fragment {
         });
         mViewModel.currentAuthor.observe(this.getViewLifecycleOwner(), author -> {
             String pattern = "yyyy-MM-dd";
-            String dateOfBirth = new SimpleDateFormat(pattern).format(author.getBirthDate().getTime());
+            String dateOfBirth = new SimpleDateFormat(pattern).format(new Date(author.getBirthDate()));
             tvBirthDate.setText(dateOfBirth);
             tvNameOfAuthor.setText(author.getName());
         });
-        mViewModel.isChangeMode.observe(this.getViewLifecycleOwner(), isChangeMode -> {
-            tvDescription.setFocusable(isChangeMode);
-            tvNameOfAuthor.setFocusable(isChangeMode);
-            tvBookName.setFocusable(isChangeMode);
-            tvBirthDate.setFocusable(isChangeMode);
-
-            tvDescription.setClickable(isChangeMode);
-            tvNameOfAuthor.setClickable(isChangeMode);
-            tvBookName.setClickable(isChangeMode);
-            tvBirthDate.setClickable(isChangeMode);
-
-            tvDescription.setFocusableInTouchMode(isChangeMode);
-            tvNameOfAuthor.setFocusableInTouchMode(isChangeMode);
-            tvBookName.setFocusableInTouchMode(isChangeMode);
-            tvBirthDate.setFocusableInTouchMode(isChangeMode);
-
-            if (isChangeMode) {
+        mViewModel.isEditMode.observe(this.getViewLifecycleOwner(), isEditMode -> {
+            this.isEditMode = isEditMode;
+            if (isEditMode) {
                 btnEdit.setText(getResources().getText(R.string.info_button_on));
             } else {
                 btnEdit.setText(getResources().getText(R.string.info_button_off));
+            }
+
+            tvDescription.setFocusable(isEditMode);
+            tvNameOfAuthor.setFocusable(isEditMode);
+            tvBookName.setFocusable(isEditMode);
+            tvBirthDate.setFocusable(isEditMode);
+
+            tvDescription.setClickable(isEditMode);
+            tvNameOfAuthor.setClickable(isEditMode);
+            tvBookName.setClickable(isEditMode);
+            tvBirthDate.setClickable(isEditMode);
+
+            tvDescription.setEnabled(isEditMode);
+            tvNameOfAuthor.setEnabled(isEditMode);
+            tvBookName.setEnabled(isEditMode);
+            tvBirthDate.setEnabled(isEditMode);
+
+            tvDescription.setFocusableInTouchMode(isEditMode);
+            tvNameOfAuthor.setFocusableInTouchMode(isEditMode);
+            tvBookName.setFocusableInTouchMode(isEditMode);
+            tvBirthDate.setFocusableInTouchMode(isEditMode);
+
+
+        });
+        mViewModel.toastMessage.observe(this.getViewLifecycleOwner(), message -> {
+            if (message != null) {
+                Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show();
+                mViewModel.onToastShown();
             }
         });
     }

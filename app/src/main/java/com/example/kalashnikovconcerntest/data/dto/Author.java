@@ -17,9 +17,9 @@ public class Author implements Serializable {
     @ColumnInfo(name = "name")
     private String name;
     @ColumnInfo(name = "birth_date")
-    private Calendar birthDate;
+    private Long birthDate;
 
-    public Author(int id, String name, Calendar birthDate) {
+    public Author(int id, String name, long birthDate) {
         this.id = id;
         this.name = name;
         this.birthDate = birthDate;
@@ -41,11 +41,11 @@ public class Author implements Serializable {
         this.name = name;
     }
 
-    public Calendar getBirthDate() {
+    public long getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(Calendar birthDate) {
+    public void setBirthDate(long birthDate) {
         this.birthDate = birthDate;
     }
 }

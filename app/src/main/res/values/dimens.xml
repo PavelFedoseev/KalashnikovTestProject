@@ -3,7 +3,7 @@
     <dimen name="item_book_margin">8dp</dimen>
     <dimen name="item_book_corner_radius">20dp</dimen>
     <dimen name="item_book_item_height">60dp</dimen>
-    <dimen name="item_book_elevation">10dp</dimen>
+    <dimen name="item_book_elevation">4dp</dimen>
     <dimen name="item_book_text_margin_vertical">8dp</dimen>
     <dimen name="item_book_text_margin_horizontal">16dp</dimen>
 

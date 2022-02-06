@@ -12,6 +12,8 @@ import com.example.kalashnikovconcerntest.domain.usecase.get_book.GetBookByIdUse
 import com.example.kalashnikovconcerntest.domain.usecase.set_author.UpdateAuthorUseCase;
 import com.example.kalashnikovconcerntest.domain.usecase.set_book.UpdateBookUseCase;
 
+import java.util.Calendar;
+
 import javax.inject.Inject;
 
 import dagger.hilt.android.lifecycle.HiltViewModel;
@@ -38,46 +40,53 @@ public class InfoViewModel extends ViewModel {
     private final MutableLiveData<Author> _currentAuthor = new MutableLiveData<>();
     public final LiveData<Author> currentAuthor = _currentAuthor;
 
-    private final MutableLiveData<Boolean> _isChangeMode = new MutableLiveData<>(false);
-    public final LiveData<Boolean> isChangeMode = _isChangeMode;
+    private final MutableLiveData<Boolean> _isEditMode = new MutableLiveData<>(false);
+    public final LiveData<Boolean> isEditMode = _isEditMode;
+
+    private final MutableLiveData<String> _toastMessage = new MutableLiveData<>(null);
+    public final LiveData<String> toastMessage = _toastMessage;
+
+    private int bookId;
 
     public void onButtonChangeClick() {
-        if (_isChangeMode.getValue() == true)
-            _isChangeMode.postValue(false);
+        if (_isEditMode.getValue() == true)
+            _isEditMode.postValue(false);
         else
-            _isChangeMode.postValue(true);
+            _isEditMode.postValue(true);
     }
 
     public void onFragmentViewCreated(int argumentBookId) {
+        bookId = argumentBookId;
         initInfo(argumentBookId);
     }
 
-    public void onTextBookDescriptionChanged(String description) {
+    public void onEditComplete(String bookName, String description, String authorName, String birthday) {
         Book currentBook = _currentBook.getValue();
         if (currentBook != null) {
             currentBook.setDescription(description);
+            currentBook.setName(bookName);
             changeBookInfo(currentBook);
         }
-    }
-
-    public void onTextBookNameChanged(String name) {
-        Book currentBook = _currentBook.getValue();
-        if (currentBook != null) {
-            currentBook.setName(name);
-            changeBookInfo(currentBook);
-        }
-    }
-
-    public void onTextAuthorNameChanged(String name) {
         Author currentAuthor = _currentAuthor.getValue();
         if (currentAuthor != null) {
-            currentAuthor.setName(name);
+            currentAuthor.setName(authorName);
+            String[] date = birthday.split("-");
+            if(date.length == 3){
+                Calendar calendar = Calendar.getInstance();
+                try {
+                    calendar.set(Integer.parseInt(date[0]), Integer.parseInt(date[1]) - 1, Integer.parseInt(date[2]));
+                    currentAuthor.setBirthDate(calendar.getTimeInMillis());
+                }
+                catch (NumberFormatException e){
+                    Timber.d("NumberFormatException in birthday string: %s", birthday);
+                    _toastMessage.postValue("Неправильный формат даты: yyyy-MM-dd");
+                }
+            }
+            else{
+                _toastMessage.postValue("Неправильный формат даты: yyyy-MM-dd");
+            }
             changeAuthorInfo(currentAuthor);
         }
-    }
-
-    public void onTextAuthorBirthdayChanged(String birthday){
-
     }
 
     private void changeBookInfo(Book book) {
@@ -91,6 +100,7 @@ public class InfoViewModel extends ViewModel {
                     Timber.d("Error in changeBookInfo");
                     Timber.e(throwable);
                 }));
+        initInfo(bookId);
     }
 
     private void changeAuthorInfo(Author author) {
@@ -104,6 +114,7 @@ public class InfoViewModel extends ViewModel {
                     Timber.d("Error in changAuthorInfo");
                     Timber.e(throwable);
                 }));
+        initInfo(bookId);
     }
 
     @Override
@@ -127,5 +138,9 @@ public class InfoViewModel extends ViewModel {
                             Timber.e(throwable);
                         })
         );
+    }
+
+    public void onToastShown() {
+        _toastMessage.postValue(null);
     }
 }

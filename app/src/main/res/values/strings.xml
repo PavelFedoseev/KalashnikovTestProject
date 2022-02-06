@@ -6,4 +6,6 @@
     <string name="info_button_off">Изменить</string>
     <string name="info_button_on">Сохранить</string>
 
+    <string name="info_error_date_type">Неправильный формат даты: yyyy-MM-dd</string>
+
 </resources>

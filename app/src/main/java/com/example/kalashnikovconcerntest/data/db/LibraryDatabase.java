@@ -17,7 +17,7 @@ import com.example.kalashnikovconcerntest.util.Config;
 import java.util.concurrent.Executors;
 
 @Database(entities = {Author.class, Book.class}, version = 1, exportSchema = false)
-@TypeConverters(CalendarTypeConverter.class)
+//@TypeConverters(CalendarTypeConverter.class)
 public abstract class LibraryDatabase extends RoomDatabase {
     public abstract LibraryDao libraryDao();
 
@@ -32,7 +32,7 @@ public abstract class LibraryDatabase extends RoomDatabase {
 
     private static LibraryDatabase buildDatabase(Context context) {
         return Room.databaseBuilder(context, LibraryDatabase.class, "LibraryDatabase.db")
-                .fallbackToDestructiveMigration()
+                .fallbackToDestructiveMigrationOnDowngrade()
                 .createFromAsset("database/sqlite.db")
                 .build();
 
