@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@id/bookLibraryFragment">
+
+    <fragment
+        android:id="@+id/bookLibraryFragment"
+        android:name="com.example.kalashnikovconcerntest.ui.fragment.library.BookLibraryFragment"
+        android:label="book_library_fragment"
+        tools:layout="@layout/book_library_fragment" />
+    <fragment
+        android:id="@+id/infoFragment"
+        android:name="com.example.kalashnikovconcerntest.ui.fragment.info.InfoFragment"
+        android:label="info_fragment"
+        tools:layout="@layout/info_fragment" />
+</navigation>

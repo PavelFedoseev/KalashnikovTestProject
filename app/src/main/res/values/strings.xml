@@ -1,3 +1,9 @@
 <resources>
-    <string name="app_name">KalashnikovConcernTest</string>
+    <string name="app_name">KalashnikovTest</string>
+    <string name="info_author_name">Писатель:</string>
+    <string name="info_author_birth">Дата рождения:</string>
+
+    <string name="info_button_off">Изменить</string>
+    <string name="info_button_on">Сохранить</string>
+
 </resources>

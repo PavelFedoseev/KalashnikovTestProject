@@ -33,13 +33,13 @@ public class InfoViewModel extends ViewModel {
     private final CompositeDisposable disposables = new CompositeDisposable();
 
     private final MutableLiveData<Book> _currentBook = new MutableLiveData<>();
-    private final LiveData<Book> currentBook = _currentBook;
+    public final LiveData<Book> currentBook = _currentBook;
 
     private final MutableLiveData<Author> _currentAuthor = new MutableLiveData<>();
-    private final LiveData<Author> currentAuthor = _currentAuthor;
+    public final LiveData<Author> currentAuthor = _currentAuthor;
 
     private final MutableLiveData<Boolean> _isChangeMode = new MutableLiveData<>(false);
-    private final LiveData<Boolean> isChangeMode = _isChangeMode;
+    public final LiveData<Boolean> isChangeMode = _isChangeMode;
 
     public void onButtonChangeClick() {
         if (_isChangeMode.getValue() == true)
@@ -52,7 +52,7 @@ public class InfoViewModel extends ViewModel {
         initInfo(argumentBookId);
     }
 
-    public void onTextDescriptionChanged(String description) {
+    public void onTextBookDescriptionChanged(String description) {
         Book currentBook = _currentBook.getValue();
         if (currentBook != null) {
             currentBook.setDescription(description);
@@ -74,6 +74,10 @@ public class InfoViewModel extends ViewModel {
             currentAuthor.setName(name);
             changeAuthorInfo(currentAuthor);
         }
+    }
+
+    public void onTextAuthorBirthdayChanged(String birthday){
+
     }
 
     private void changeBookInfo(Book book) {

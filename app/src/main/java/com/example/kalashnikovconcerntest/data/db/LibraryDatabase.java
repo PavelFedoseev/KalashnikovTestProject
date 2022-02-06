@@ -3,6 +3,7 @@ package com.example.kalashnikovconcerntest.data.db;
 import android.content.Context;
 
 import androidx.annotation.NonNull;
+import androidx.room.AutoMigration;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
@@ -32,17 +33,8 @@ public abstract class LibraryDatabase extends RoomDatabase {
     private static LibraryDatabase buildDatabase(Context context) {
         return Room.databaseBuilder(context, LibraryDatabase.class, "LibraryDatabase.db")
                 .fallbackToDestructiveMigration()
-                .addCallback(new Callback() {
-                    @Override
-                    public void onCreate(@NonNull SupportSQLiteDatabase db) {
-                        super.onCreate(db);
-                        //Заполнение базы данных книгами и авторами при первом создании
-                        Executors.newSingleThreadExecutor().execute(() -> {
-                            getInstance(context).libraryDao().insertAllAuthors(Config.BASE_AUTHORS_LIST);
-                            getInstance(context).libraryDao().insertAllBooks(Config.BASE_BOOKS_LIST);
-                        });
-                    }
-                })
+                .createFromAsset("database/sqlite.db")
                 .build();
+
     }
 }

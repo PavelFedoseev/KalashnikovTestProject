@@ -4,10 +4,12 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.kalashnikovconcerntest.data.dto.Author;
 import com.example.kalashnikovconcerntest.data.dto.Book;
 import com.example.kalashnikovconcerntest.domain.repo.LibraryRepository;
 import com.example.kalashnikovconcerntest.domain.usecase.get_book.GetAllBooksUseCase;
 
+import java.util.Calendar;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -21,23 +23,30 @@ import timber.log.Timber;
 @HiltViewModel
 public class BookLibraryViewModel extends ViewModel {
 
-    LibraryRepository libraryRepository;
+    private final LibraryRepository libraryRepository;
     private final CompositeDisposable disposables = new CompositeDisposable();
 
     private final MutableLiveData<List<Book>> _listOfBooks = new MutableLiveData<>();
-    private final LiveData<List<Book>> listOfBooks = _listOfBooks;
+    public final LiveData<List<Book>> listOfBooks = _listOfBooks;
 
     @Inject
     public BookLibraryViewModel(LibraryRepository libraryRepository) {
         this.libraryRepository = libraryRepository;
+
+//        disposables.add(libraryRepository.insertAuthor(new Author(1,"Грибоедов", Calendar.getInstance())).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(()->{
+//            libraryRepository.insertBook(new Book(1, "Книга", "Очень большое описание", 1)).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe();
+//        }));
+
     }
 
-    public void onActivityCreated() {
+    public void onFragmentViewCreated() {
         disposables.add(new GetAllBooksUseCase(libraryRepository)
                 .getBooks()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(_listOfBooks::postValue, throwable -> {
+                .subscribe(list -> {
+                    _listOfBooks.postValue(list);
+                }, throwable -> {
                     Timber.d("Error with getting books");
                 }));
     }
