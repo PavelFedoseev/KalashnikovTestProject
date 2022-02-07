@@ -2,14 +2,8 @@ package com.example.kalashnikovconcerntest.di;
 
 import android.content.Context;
 
-import androidx.room.Room;
-import androidx.room.RoomDatabase;
-
 import com.example.kalashnikovconcerntest.data.db.LibraryDao;
 import com.example.kalashnikovconcerntest.data.db.LibraryDatabase;
-import com.example.kalashnikovconcerntest.data.repository.LibraryRepositoryImpl;
-import com.example.kalashnikovconcerntest.domain.repo.LibraryRepository;
-import com.example.kalashnikovconcerntest.util.Config;
 
 import dagger.Module;
 import dagger.Provides;

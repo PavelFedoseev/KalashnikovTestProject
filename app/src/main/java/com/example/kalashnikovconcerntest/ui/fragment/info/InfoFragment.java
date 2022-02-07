@@ -1,10 +1,12 @@
 package com.example.kalashnikovconcerntest.ui.fragment.info;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.transition.TransitionInflater;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -15,15 +17,11 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.kalashnikovconcerntest.R;
-import com.example.kalashnikovconcerntest.data.dto.Book;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import dagger.hilt.android.AndroidEntryPoint;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
-import timber.log.Timber;
 
 @AndroidEntryPoint
 public class InfoFragment extends Fragment {
@@ -123,6 +121,15 @@ public class InfoFragment extends Fragment {
                 btnEdit.setText(getResources().getText(R.string.info_button_on));
             } else {
                 btnEdit.setText(getResources().getText(R.string.info_button_off));
+                View view = requireActivity().getCurrentFocus();
+                if (view != null) {
+                    InputMethodManager imm = (InputMethodManager) requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }
+                tvDescription.clearFocus();
+                tvNameOfAuthor.clearFocus();
+                tvBookName.clearFocus();
+                tvBirthDate.clearFocus();
             }
 
             tvDescription.setFocusable(isEditMode);
@@ -130,15 +137,20 @@ public class InfoFragment extends Fragment {
             tvBookName.setFocusable(isEditMode);
             tvBirthDate.setFocusable(isEditMode);
 
+            tvDescription.setFocusable(isEditMode);
+            tvNameOfAuthor.setFocusable(isEditMode);
+            tvBookName.setFocusable(isEditMode);
+            tvBirthDate.setFocusable(isEditMode);
+
+            tvDescription.setLongClickable(isEditMode);
+            tvNameOfAuthor.setLongClickable(isEditMode);
+            tvBookName.setLongClickable(isEditMode);
+            tvBirthDate.setLongClickable(isEditMode);
+
             tvDescription.setClickable(isEditMode);
             tvNameOfAuthor.setClickable(isEditMode);
             tvBookName.setClickable(isEditMode);
             tvBirthDate.setClickable(isEditMode);
-
-            tvDescription.setEnabled(isEditMode);
-            tvNameOfAuthor.setEnabled(isEditMode);
-            tvBookName.setEnabled(isEditMode);
-            tvBirthDate.setEnabled(isEditMode);
 
             tvDescription.setFocusableInTouchMode(isEditMode);
             tvNameOfAuthor.setFocusableInTouchMode(isEditMode);
